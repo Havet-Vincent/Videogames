@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Jeux vidéos</title>
+  </head>
+  <body>
+
+    <!-- Main -->
+    <main class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Mes jeux vidéos</h1>
+            <p class="lead">Voici une petite interface toute simple (grâce à bootstrap) permettant de visualiser les jeux vidéos de ma base de données, mais aussi de les ajouter !</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <a href="index.php?order=name" class="btn btn-primary">Trier par nom</a>&nbsp;
+                <a href="index.php?order=editor" class="btn btn-info">Trier par éditeur</a>&nbsp;
+              
+                <!-- Button annuler tri -->
+                <?php
+                if (!empty($_GET['order'])) :
+
+                    if ($_GET['order'] == 'name' ||  $_GET['order'] == 'editor') : ?>                  
+                        <a href="index.php" class="btn btn-dark">Annuler le tri</a><br>
+                <?php endif;
+                endif?>
+                <!-- Button annuler tri End -->
+
+                <br>
+                <!-- Tableau jeux videos -->
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">&Eacute;diteur</th>
+                        <th scope="col">Date de sortie</th>
+                        <th scope="col">Console / Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- Boucle sur tableau jeux videos -->
+                    <?php
+                        foreach ($videogameList as $currentRow) :
+                        $id = (int)($currentRow['platform_id']);
+                                      
+                      ?>
+                      
+                        <tr>
+                            <td><?= $currentRow['id'] ?></td>
+                            <td><?= $currentRow['name'] ?></td>
+                            <td><?= $currentRow['editor'] ?></td>
+                            <td><?= $currentRow['release_date'] ?></td>
+                            <td><?= $platformList[$currentRow['platform_id']] ?></td>
+                            
+                            
+                        </tr>
+                    <?php endforeach;  ?>
+                     <!-- Boucle sur tableau jeux videos End -->
+                </tbody>
+                </table>
+                <!-- Tableau jeux videos End -->
+            </div>
+
+            <!-- Formulaire ajout jeu -->
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <div class="card-header">Ajout</div>
+                    <div class="card-body">
+                        <form method="post">
+                        <?php if (!empty($error)) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                     <div><?= $error; ?></div>
+                                 </div>
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <label for="name">Nom</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="editor">&Eacute;diteur</label>
+                                <input type="text" class="form-control" name="editor" id="editor" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="release_date">Date de sortie</label>
+                                <input type="text" class="form-control" name="release_date" id="release_date" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="platform">Console / Support</label>
+                                <select class="custom-select" id="platform" name="platform">
+                                    <option>-</option>
+                                    <!-- Boucle tableau plateforme jeux -->
+                                    <?php foreach ($platformList as $currentPlaformId=>$currentPlatformName) : ?>
+                                    <option value="<?= $currentPlaformId ?>"><?= $currentPlatformName ?></option>
+                                    <?php endforeach; ?>
+                                    <!-- Boucle tableau plateforme jeux End -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Ajouter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Formulaire ajout jeu End -->
+        </div>
+    </main>
+    <!-- Main End -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
