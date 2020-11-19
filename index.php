@@ -54,7 +54,7 @@ if (!empty($_POST)) {
     endif;
 }
 
-// Liste des consoles de jeux
+// Liste des consoles de jeu
 // TODO récupérer cette liste depuis la base de données
 
 $platformQuery = 'SELECT `id`,`name` FROM `platform`';
